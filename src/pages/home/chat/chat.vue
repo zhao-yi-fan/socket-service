@@ -7,10 +7,12 @@
       <Scroll class="wrapper"
               :data="data"
               :pulldown="pulldown"
-              @pulldown="loadData">
+              @pulldown="loadData"
+              >
         <ul class="content">
           <li v-for="(item,index) in data"
-              :key="index">{{item}}</li>
+              class="content-li"
+              :key="index" >{{item}}</li>
         </ul>
         <div class="loading-wrapper"></div>
       </Scroll>
@@ -24,7 +26,7 @@
 <script>
 import Scroll from '@/common/scroll'
 export default {
-  name: "",
+  name: "scroll",
   components: {
     Scroll
   },
@@ -45,9 +47,11 @@ export default {
       })
     },
     loadData () {
-      this.requestData().then((res) => {
+      this.requestData();
+      /* .then((res) => {
         this.data = res.data.concat(this.data)
-      })
+      }) */
+      console.log('下拉刷新')
     },
     /* loadData () {
       this.requireData();
@@ -65,6 +69,9 @@ export default {
         }
       })
     } */
+    clickHandle(){
+      console.log('点击了')
+    }
   },
   created () {
     this.loadData()
@@ -95,6 +102,10 @@ export default {
   background: lightgreen;
   border-radius: 5%;
   overflow: hidden;
+}
+.content-li {
+  height: 50px;
+  border: 1px solid #ccc;
 }
 .chat-info {
   flex: 1;

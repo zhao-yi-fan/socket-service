@@ -1,11 +1,26 @@
 <template>
   <div ref="wrapper">
-    <slot></slot>
+    <div class="bScroll-container">
+      <div class="bScroll-top"
+           v-show="show"
+           :style="msgCol">
+        <span>{{showMsg}}</span>
+      </div>
+      <div class="bScroll-content">
+        <slot></slot>
+      </div>
+    </div>
   </div>
 </template>
 <script type="text/ecmascript-6">
 import BScroll from 'better-scroll'
 export default {
+  data () {
+    return {
+      showMsg: '下拉刷新...',
+      show: false,
+    }
+  },
   props: {
     /**
      * 1 滚动的时候会派发scroll事件，会截流。
@@ -35,7 +50,7 @@ export default {
      */
     listenScroll: {
       type: Boolean,
-      default: false
+      default: true
     },
     /**
      * 列表的数据
@@ -71,6 +86,17 @@ export default {
     refreshDelay: {
       type: Number,
       default: 20
+    },
+    msg: {
+      type: String,
+      default: ''
+    },
+    /**
+     * 这个配置用于做下拉刷新功能,当设置为 true 或者是一个 Object 的时候，可以开启下拉刷新
+     */
+    pullDownRefresh: {
+      type: Boolean | Object,
+      default: true
     }
   },
   mounted () {
@@ -88,12 +114,17 @@ export default {
       this.scroll = new BScroll(this.$refs.wrapper, {
         probeType: this.probeType,
         click: this.click,
-        scrollX: this.scrollX
+        scrollX: this.scrollX,
+        pullDownRefresh: this.pullDownRefresh
       })
 
       // 是否派发滚动事件
       if (this.listenScroll) {
         this.scroll.on('scroll', (pos) => {
+          if (pos.y > 50) {
+            this.show = true
+            this.showMsg = '加载中...'
+          }
           this.$emit('scroll', pos)
         })
       }
@@ -153,6 +184,26 @@ export default {
         this.refresh()
       }, this.refreshDelay)
     }
-  }
+  },
+  computed: {
+    msgCol () {
+      switch (this.msg) {
+        case 'black':
+          return `color: #2f2725`
+        default:
+          return `color: #fff`
+      }
+    }
+  },
 }
 </script>
+<style lang="css" scoped>
+.wrapper {
+  width: 100%;
+  position: absolute;
+  top: 45px;
+  bottom: 50px; /* 关键 */
+  overflow: hidden;
+  z-index: 1;
+}
+</style>
