@@ -5,7 +5,6 @@ import App from './App'
 import router from './router'
 import '@/assets/css/reset.css'
 import Common from '@/assets/js/common.js'
-
 Vue.config.productionTip = false
 Vue.use(Common)
 /* eslint-disable no-new */

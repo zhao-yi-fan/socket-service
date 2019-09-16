@@ -10,41 +10,22 @@ export default {
       },
       Vue.prototype._aliurl = 'http://doutui.oss-cn-beijing.aliyuncs.com/', //阿里云拼接路径
       Vue.prototype._ajax = function (url, option, callback) {
-        // post(Vue.prototype._url + url, option).then(resp => {
-        //   if (resp.state == 1) {
-        //     callback(resp);
-        //   } else {
-        //     Vue.prototype.$message({
-        //       message: resp.message,
-        //       type: 'warning'
-        //     })
-        //   }
-        // }, error => {
-        //   Vue.prototype.$message({
-        //     message: 'error!',
-        //     type: 'error'
-        //   })
-        // })
-        let noRefetch = false;
-        if (url == 'admin/login') {
-          noRefetch = true;
-        }
-        let params = {
-          url: url,
-          data: option,
-          // 请求发送成功
-          sCallback: (resp) => {
+        post(url, option).then(resp => {
+          callback(resp);
+          /* if (resp.state == 1) {
             callback(resp);
-          },
-          // 请求发送失败
-          eCallback: () => {
+          } else {
             Vue.prototype.$message({
-              message: 'error!',
-              type: 'error'
+              message: resp.message,
+              type: 'warning'
             })
-          }
-        };
-        request(params, noRefetch);
+          } */
+        }, error => {
+          /* Vue.prototype.$message({
+            message: 'error!',
+            type: 'error'
+          }) */
+        })
       }
   }
 }

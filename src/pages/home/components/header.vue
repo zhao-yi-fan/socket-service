@@ -22,7 +22,7 @@ export default {
 </script>
 <style lang="css" scoped>
 #header {
-  height: 60px;
+  height: 50px;
   background: blue;
 }
 </style>

@@ -22,7 +22,7 @@ export default {
 </script>
 <style lang="css" scoped>
 #footer {
-  height: 20px;
+  height: 30px;
   background: #000;
 }
 </style>
