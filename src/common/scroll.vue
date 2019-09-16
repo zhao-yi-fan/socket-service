@@ -78,7 +78,7 @@ export default {
      */
     beforeScroll: {
       type: Boolean,
-      default: false
+      default: true
     },
     /**
      * 当数据更新后，刷新scroll的延时。
@@ -141,7 +141,9 @@ export default {
 
       // 是否派发顶部下拉事件，用于下拉刷新
       if (this.pulldown) {
-        this.scroll.on('touchend', (pos) => {
+        this.scroll.on('touchEnd', (pos) => {
+          console.log(pos)
+          console.log('鼠标/手指离开')
           // 下拉动作
           if (pos.y > 50) {
             this.$emit('pulldown')
@@ -152,6 +154,7 @@ export default {
       // 是否派发列表滚动开始的事件
       if (this.beforeScroll) {
         this.scroll.on('beforeScrollStart', () => {
+          console.log('beforeScrollStart 滚动之前')
           this.$emit('beforeScroll')
         })
       }
@@ -200,9 +203,9 @@ export default {
 <style lang="css" scoped>
 .wrapper {
   width: 100%;
-  position: absolute;
+  /* position: absolute;
   top: 45px;
-  bottom: 50px; /* 关键 */
+  bottom: 50px;  */
   overflow: hidden;
   z-index: 1;
 }
