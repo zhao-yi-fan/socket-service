@@ -1,21 +1,31 @@
 <template>
   <div class="chat">
-    <div class="chat-users">
-      <div class="chat-users-title">会话列表</div>
-    </div>
+    <ChatList class="chat-userList"></ChatList>
     <div class="chat-container">
+      <div class="chat-container-title bgColor">Matt Thomspn</div>
       <Scroll class="wrapper"
               :data="data"
               :pulldown="pulldown"
-              @pulldown="loadData"
-              >
+              @pulldown="loadData">
         <ul class="content">
-          <li v-for="(item,index) in data"
-              class="content-li"
-              :key="index" >{{item}}</li>
+          <li class="left-message">
+            <div class="left-avatar">
+              <img src="../../../assets/image/timg.jpg"
+                   alt="">
+            </div>
+            <div class="left-info">
+              <div class="left-content">
+                内容内容内容内容内容内容内容
+              </div>
+            </div>
+          </li>
         </ul>
         <div class="loading-wrapper"></div>
       </Scroll>
+      <div class="chat-container-inp"
+           contenteditable="true">
+
+      </div>
     </div>
     <div class="chat-info">
 
@@ -25,10 +35,12 @@
 
 <script>
 import Scroll from '@/common/scroll'
+import ChatList from './components/chatList'
 export default {
   name: "scroll",
   components: {
-    Scroll
+    Scroll,
+    ChatList
   },
   props: {},
   data () {
@@ -53,8 +65,7 @@ export default {
       }) */
       console.log('下拉刷新')
     },
-    
-    clickHandle(){
+    clickHandle () {
       console.log('点击了')
     },
   },
@@ -67,31 +78,96 @@ export default {
 }
 </script>
 <style lang="css" scoped>
+.wrapper {
+  width: 100%;
+  position: absolute;
+  top: 45px;
+  bottom: 200px;
+  overflow: hidden;
+  z-index: 1;
+}
 .chat {
   height: 100%;
   display: flex;
 }
-.chat-users {
+.chat-userList {
   width: 300px;
   box-sizing: border-box;
-  background: #ccc;
-  border-radius: 5%;
+  background: #f0f5f9;
+  /* border-radius: 5%; */
   overflow: hidden;
 }
-.chat-users-title {
-  height: 30px;
-  background: #f1c856;
-}
+
 .chat-container {
-  width: 400px;
-  background: lightgreen;
-  border-radius: 5%;
+  width: 700px;
+  position: relative;
+  background: #eaeaea;
+  /* border-radius: 5%; */
   overflow: hidden;
 }
-.content-li {
+.chat-container-title {
+  line-height: 30px;
+  text-align: center;
+}
+/* .content-li {
   height: 50px;
   border: 1px solid #ccc;
+} */
+
+/* 左侧聊天人 */
+.left-message {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #ccc;
+  display: flex;
 }
+.left-avatar {
+  flex-shrink: 0; /* 项目不缩小 */
+  width: 100px;
+  height: 100px;
+}
+.left-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.left-info {
+  padding: 0 10px;
+}
+.left-content {
+  margin-top: 20px;
+  background: #f9cdad;
+  border-radius: 5px;
+  position: relative;
+}
+.left-content:after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: -50px;
+  width: 76px;
+  height: 24px;
+  border-width: 0;
+  border-style: solid;
+  border-color: transparent;
+  margin-bottom: -11px;
+  border-right-width: 15px;
+  border-right-color: currentColor;
+  border-radius: 0 152px 0 0;
+  color: #f9cdad;
+}
+/* 输入框 */
+.chat-container-inp {
+  position: absolute;
+  bottom: 0;
+  box-sizing: border-box;
+  height: 200px;
+  width: 100%;
+  border: 1px solid #ccc;
+  background: #f0f5f9;
+}
+
 .chat-info {
   flex: 1;
 }

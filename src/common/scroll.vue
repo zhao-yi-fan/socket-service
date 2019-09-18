@@ -97,6 +97,24 @@ export default {
     pullDownRefresh: {
       type: Boolean | Object,
       default: true
+    },
+    /**
+     * PC 端的鼠标滚轮，默认为 false
+     */
+    mouseWheel: {
+      type: Boolean | Object,
+      default: () => ({
+        speed: 20, // 表示鼠标滚轮滚动的速度
+        invert: false, // 为 true 表示滚轮滚动和时机滚动方向相反
+        easeTime: 1000 // 表示滚动动画的缓动时长
+      })
+    },
+    scrollbar: {
+      type: Boolean | Object,
+      default: () => ({
+        fade: true,
+        interactive: false // 1.8.0 新增
+      })
     }
   },
   mounted () {
@@ -115,7 +133,10 @@ export default {
         probeType: this.probeType,
         click: this.click,
         scrollX: this.scrollX,
-        pullDownRefresh: this.pullDownRefresh
+        pullDownRefresh: this.pullDownRefresh,
+        mouseWheel: this.mouseWheel,
+        // 开启滚动条，默认为 false
+        scrollbar: this.scrollbar,
       })
 
       // 是否派发滚动事件
@@ -201,12 +222,4 @@ export default {
 }
 </script>
 <style lang="css" scoped>
-.wrapper {
-  width: 100%;
-  /* position: absolute;
-  top: 45px;
-  bottom: 50px;  */
-  overflow: hidden;
-  z-index: 1;
-}
 </style>

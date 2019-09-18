@@ -23,6 +23,6 @@ export default {
 <style lang="css" scoped>
 #header {
   height: 50px;
-  background: blue;
+  background: #0a114e;
 }
 </style>
