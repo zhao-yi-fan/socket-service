@@ -68,7 +68,7 @@
 <script>
 import Scroll from '@/common/scroll'
 export default {
-  name: "chatList",
+  name: "chatUserList",
   components: {
     Scroll
   },

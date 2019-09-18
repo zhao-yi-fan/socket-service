@@ -1,21 +1,38 @@
 <template>
   <div class="chat">
-    <ChatList class="chat-userList"></ChatList>
+    <ChatUserList class="chat-userList"></ChatUserList>
     <div class="chat-container">
-      <div class="chat-container-title bgColor">Matt Thomspn</div>
+      <div class="chat-container-title bgColor">icecream</div>
       <Scroll class="wrapper"
-              :data="data"
-              :pulldown="pulldown"
-              @pulldown="loadData">
+              :data="data">
         <ul class="content">
-          <li class="left-message">
-            <div class="left-avatar">
-              <img src="../../../assets/image/timg.jpg"
-                   alt="">
+          <li class="message"
+              v-for="item in data"
+              :key="item.id">
+            <!-- 左侧其他人 -->
+            <div class="left-message"
+                 v-if="item.state==0">
+              <div class="left-avatar">
+                <img src="../../../assets/image/timg.jpg"
+                     alt="">
+              </div>
+              <div class="left-info">
+                <div class="left-content">
+                  {{item.content}}
+                </div>
+              </div>
             </div>
-            <div class="left-info">
-              <div class="left-content">
-                内容内容内容内容内容内容内容
+            <!-- 右侧自己 -->
+            <div class="right-message"
+                 v-else>
+              <div class="right-avatar">
+                <img src="../../../assets/image/timg.jpg"
+                     alt="">
+              </div>
+              <div class="right-info">
+                <div class="right-content">
+                  {{item.content}}
+                </div>
               </div>
             </div>
           </li>
@@ -35,18 +52,18 @@
 
 <script>
 import Scroll from '@/common/scroll'
-import ChatList from './components/chatList'
+import ChatUserList from './components/chatUserList'
 export default {
   name: "scroll",
   components: {
     Scroll,
-    ChatList
+    ChatUserList
   },
   props: {},
   data () {
     return {
       data: [],
-      pulldown: true
+      pulldown: true,
     }
   },
   watch: {},
@@ -109,22 +126,21 @@ export default {
   line-height: 30px;
   text-align: center;
 }
-/* .content-li {
-  height: 50px;
-  border: 1px solid #ccc;
-} */
 
+.message {
+  width: 100%;
+}
 /* 左侧聊天人 */
 .left-message {
   box-sizing: border-box;
-  width: 100%;
-  border: 1px solid #ccc;
+  width: 90%;
+  margin: 0 auto;
   display: flex;
 }
 .left-avatar {
   flex-shrink: 0; /* 项目不缩小 */
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
 }
 .left-avatar img {
   width: 100%;
@@ -137,26 +153,55 @@ export default {
 }
 .left-content {
   margin-top: 20px;
-  background: #f9cdad;
-  border-radius: 5px;
-  position: relative;
+  padding: 10px 20px;
+  background: #fffcf0;
+  border-radius: 0 10px 10px 10px;
 }
-.left-content:after {
+/* .left-content:after {
   content: "";
   position: absolute;
-  bottom: 100%;
-  left: -50px;
-  width: 76px;
-  height: 24px;
+  left: 0;
+  top: 0;
+  width: 19px;
+  height: 71px;
   border-width: 0;
   border-style: solid;
   border-color: transparent;
-  margin-bottom: -11px;
-  border-right-width: 15px;
-  border-right-color: currentColor;
-  border-radius: 0 152px 0 0;
-  color: #f9cdad;
+  margin-right: -11px;
+  border-bottom-width: 16px;
+  border-bottom-color: currentColor;
+  border-radius: 0 0 0 142px;
+  color: #fffcf0;
+} */
+/* 右侧聊天人 */
+.right-message {
+  box-sizing: border-box;
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row-reverse;
 }
+.right-avatar {
+  flex-shrink: 0; /* 项目不缩小 */
+  width: 80px;
+  height: 80px;
+}
+.right-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.right-info {
+  padding: 0 10px;
+}
+.right-content {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #fffcf0;
+  border-radius: 10px 0px 10px 10px;
+}
+
 /* 输入框 */
 .chat-container-inp {
   position: absolute;

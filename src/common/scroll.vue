@@ -62,21 +62,21 @@ export default {
     /**
      * 是否派发滚动到底部的事件，用于上拉加载
      */
-    pullup: {
+    isPullup: {
       type: Boolean,
-      default: false
+      default: true
     },
     /**
      * 是否派发顶部下拉的事件，用于下拉刷新
      */
-    pulldown: {
+    isPulldown: {
       type: Boolean,
-      default: false
+      default: true
     },
     /**
      * 是否派发列表滚动开始的事件
      */
-    beforeScroll: {
+    isBeforeScroll: {
       type: Boolean,
       default: true
     },
@@ -90,13 +90,6 @@ export default {
     msg: {
       type: String,
       default: ''
-    },
-    /**
-     * 这个配置用于做下拉刷新功能,当设置为 true 或者是一个 Object 的时候，可以开启下拉刷新
-     */
-    pullDownRefresh: {
-      type: Boolean | Object,
-      default: true
     },
     /**
      * PC 端的鼠标滚轮，默认为 false
@@ -114,6 +107,23 @@ export default {
       default: () => ({
         fade: true,
         interactive: false // 1.8.0 新增
+      })
+    },
+    pullUpLoad: {
+      type: Boolean | Object,
+      default: () => ({
+        // 当上拉距离超过30px时触发 pullingUp 事件
+        threshold: -30
+      })
+    },
+    /**
+     * 这个配置用于做下拉刷新功能,当设置为 true 或者是一个 Object 的时候，可以开启下拉刷新
+     */
+    pullDownRefresh: {
+      type: Boolean | Object,
+      default: () => ({
+        threshold: 30,
+        stop: 20
       })
     }
   },
@@ -133,52 +143,78 @@ export default {
         probeType: this.probeType,
         click: this.click,
         scrollX: this.scrollX,
-        pullDownRefresh: this.pullDownRefresh,
         mouseWheel: this.mouseWheel,
         // 开启滚动条，默认为 false
         scrollbar: this.scrollbar,
+        // 开启上拉加载
+        pullUpLoad: this.pullUpLoad,
+        // 开启下拉刷新
+        pullDownRefresh: this.pullDownRefresh
       })
 
+      // 是否派发列表滚动开始的事件
+      if (this.isBeforeScroll) {
+        this.scroll.on('beforeScrollStart', () => {
+          console.log('beforeScrollStart 滚动之前')
+          this.$emit('beforeScroll')
+        })
+      }
+
       // 是否派发滚动事件
-      if (this.listenScroll) {
+      /* if (this.listenScroll) {
         this.scroll.on('scroll', (pos) => {
+          console.log(this.scroll.maxScrollY)
           if (pos.y > 50) {
             this.show = true
             this.showMsg = '加载中...'
           }
           this.$emit('scroll', pos)
         })
-      }
+      } */
 
       // 是否派发滚动到底部事件，用于上拉加载
-      if (this.pullup) {
+      /* if (this.pullup) {
         this.scroll.on('scrollEnd', () => {
           // 滚动到底部
           if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
             this.$emit('scrollToEnd')
           }
         })
-      }
+      } */
 
-      // 是否派发顶部下拉事件，用于下拉刷新
-      if (this.pulldown) {
+      // 是否派发滚动到底部事件，用于上拉加载
+      if (this.isPullup) {
+        this.scroll.on('pullingUp', () => {
+          console.log('处理上拉加载操作')
+          setTimeout(() => {
+            // 事情做完，需要调用此方法告诉 better-scroll 数据已加载，否则上拉事件只会执行一次
+            this.scroll.finishPullUp()
+          }, 2000)
+        })
+      }
+      /* if (this.pulldown) {
         this.scroll.on('touchEnd', (pos) => {
-          console.log(pos)
           console.log('鼠标/手指离开')
           // 下拉动作
           if (pos.y > 50) {
             this.$emit('pulldown')
           }
         })
-      }
+      } */
 
-      // 是否派发列表滚动开始的事件
-      if (this.beforeScroll) {
-        this.scroll.on('beforeScrollStart', () => {
-          console.log('beforeScrollStart 滚动之前')
-          this.$emit('beforeScroll')
+      // 是否派发顶部下拉事件，用于下拉刷新
+      if (this.isPulldown) {
+        // 下拉刷新的动作后，这个时机一般用来去后端请求数据。
+        this.scroll.on('pullingDown', () => {
+          console.log('下拉刷新请求数据')
+          this.$emit('pulldown')
+          setTimeout(() => {
+            // 事情做完，需要调用此方法告诉 better-scroll 数据已加载，否则下拉事件只会执行一次
+            this.scroll.finishPullDown()
+          }, 2000)
         })
       }
+
     },
     disable () {
       // 代理better-scroll的disable方法
@@ -222,4 +258,7 @@ export default {
 }
 </script>
 <style lang="css" scoped>
+.bScroll-top {
+  text-align: center;
+}
 </style>
