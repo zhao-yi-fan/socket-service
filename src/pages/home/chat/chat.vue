@@ -39,25 +39,32 @@
         </ul>
         <div class="loading-wrapper"></div>
       </Scroll>
-      <div class="chat-container-inp"
-           contenteditable="true">
+      <div class="chat-container-inp">
+        <div class="inp-title">
 
+        </div>
+        <div class="inp-content">
+
+        </div>
+        <div class="inp-send">
+
+        </div>
       </div>
     </div>
-    <div class="chat-info">
-
-    </div>
+    <ChatInfo class="chat-info"></ChatInfo>
   </div>
 </template>
 
 <script>
 import Scroll from '@/common/scroll'
 import ChatUserList from './components/chatUserList'
+import ChatInfo from './components/chatInfo'
 export default {
   name: "scroll",
   components: {
     Scroll,
-    ChatUserList
+    ChatUserList,
+    ChatInfo
   },
   props: {},
   data () {
@@ -107,6 +114,7 @@ export default {
   height: 100%;
   display: flex;
 }
+/* 左侧用户列表组件开始 */
 .chat-userList {
   width: 300px;
   box-sizing: border-box;
@@ -114,7 +122,9 @@ export default {
   /* border-radius: 5%; */
   overflow: hidden;
 }
+/* 左侧用户列表组件结束 */
 
+/* 中间聊天 */
 .chat-container {
   width: 700px;
   position: relative;
@@ -210,9 +220,17 @@ export default {
   height: 200px;
   width: 100%;
   border: 1px solid #ccc;
+  /* background: #f0f5f9; */
+}
+.inp-title {
+  height: 40px;
   background: #f0f5f9;
 }
-
+.inp-send{
+  height: 40px;
+  background: #f0f5f9;
+}
+/* 右侧聊天信息 */
 .chat-info {
   flex: 1;
 }
