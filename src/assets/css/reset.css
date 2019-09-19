@@ -5,6 +5,8 @@
 html,
 body {
   height: 100%;
+  width: 100%;
+  overflow: hidden; /* 解决出现垂直滚动条 */
 }
 ul {
   list-style: none;

@@ -6,7 +6,7 @@
     </div>
     <Scroll class="wrapper">
       <ul class="content">
-        <li class="user">
+        <li class="user" @click="tiaozhuan('1')">
           <div class="user-container">
             <div class="container-avatar">
               <img src="../../../../assets/image/timg.jpg"
@@ -32,7 +32,7 @@
             </div>
           </div>
         </li>
-        <li class="user">
+        <li class="user" @click="tiaozhuan('2')">
           <div class="user-container">
             <div class="container-avatar">
               <img src="../../../../assets/image/timg.jpg"
@@ -59,7 +59,6 @@
           </div>
         </li>
       </ul>
-
       <div class="loading-wrapper"></div>
     </Scroll>
   </div>
@@ -77,9 +76,12 @@ export default {
     return {
     }
   },
-  watch: {},
-  computed: {},
-  methods: {},
+  methods: {
+    tiaozhuan(id){
+      this.$router.push({ path: `/chatContainer/${id}` })
+      console.log('点击了')
+    }
+  },
   created () { },
   mounted () { }
 }

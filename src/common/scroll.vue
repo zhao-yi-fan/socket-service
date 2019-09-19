@@ -99,7 +99,7 @@ export default {
       default: () => ({
         speed: 20, // 表示鼠标滚轮滚动的速度
         invert: false, // 为 true 表示滚轮滚动和时机滚动方向相反
-        easeTime: 1000 // 表示滚动动画的缓动时长
+        easeTime: 1000, // 表示滚动动画的缓动时长
       })
     },
     scrollbar: {
